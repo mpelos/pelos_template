@@ -1,0 +1,14 @@
+Description:
+    Create all it's necessary for an administration area for Fator P's Applications
+
+Example:
+    rails generate admin_layout
+
+    This will create:
+        app/controllers/admin/admin_controller.rb
+        config/credentials/yml
+        app/views/layouts/admin.html.haml
+        app/stylesheets/admin.sass
+        public/javascripts/admin.js
+        mkdir app/views/admin
+

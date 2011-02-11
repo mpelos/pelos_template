@@ -1,0 +1,36 @@
+= link_to '<< Voltar', admin_<%= plural_table_name %>_path, :id => "top_link", :class => "link"
+
+#form
+  = form_for [:admin, @<%= singular_table_name %>], :html => { :multipart => true } do |form|
+    %dl
+      %dt= form.error_messages
+
+<% for attribute in attributes -%>
+<% if attribute.type == :has_many or attribute.type == :has_many_files -%>
+      %dt= t('activerecord.models.<%= attribute.name.singularize %>')
+      %dd
+        %ul#<%= attribute.name %>_container
+          - form.fields_for :<%= attribute.name %> do |<%= attribute.name.singularize %>_form|
+            = render :partial => "<%= attribute.name.singularize %>", :locals => { :form => <%= attribute.name.singularize %>_form }
+
+        = add_child_link "Adicionar #{t('activerecord.models.<%= attribute.name.singularize %>')}", :<%= attribute.name %>
+        = new_child_fields_template form, :<%= attribute.name %>
+
+<% elsif attribute.type == :has_one_file -%>
+      = form.fields_for :<%= attribute.name %> do |<%= attribute.name %>_form|
+        %dt= <%= attribute.name %>_form.label :attachment, t('activerecord.models.<%= attribute.name %>')
+        - if <%= attribute.name %>_form.object.new_record?
+          %dd= <%= attribute.name %>_form.file_field :attachment, :class => 'file_field'
+        - else
+          %dd
+            = link_to <%= attribute.name %>_form.object.attachment_file_name, <%= attribute.name %>_form.object.attachment.url, :class => 'link expand_image'
+            = link_to image_tag('admin/cross.png'), admin_<%= singular_table_name %>_<%= attribute.name %>_path(@<%= singular_table_name %>, <%= attribute.name %>_form.object), :confirm => 'Você tem certeza que deseja excluir esta imagem?', :method => :delete, :class => 'link', :title => 'Excluir Imagem'
+
+<% else -%>
+      %dt= form.label :<%= attribute.name %>, t('activerecord.attributes.<%= singular_table_name %>.<%= attribute.name %>')
+      %dd= form.<%= attribute.field_type %> :<%= singular_table_name %>, :class => '<%= attribute.name %>'
+<% end -%>
+<% end -%>
+
+      %dt= form.submit controller.controller_action == :new ? 'Inserir' : 'Atualizar', :class => 'button'
+

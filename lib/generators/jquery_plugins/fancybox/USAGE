@@ -1,0 +1,9 @@
+Description:
+    Put Fancybox in Public Folder
+
+Example:
+    rails generate fancybox
+
+    This will create:
+        public/fancybox
+
