@@ -1,2 +1,2 @@
-rvm 1.9.2-p0@<%= name %>
+rvm 1.9.2-p0@<%= app_name %>
 

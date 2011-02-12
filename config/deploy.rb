@@ -2,9 +2,9 @@
 require "bundler/capistrano"
 
 # Application Settings
-set :application,   "<%= name %>"
+set :application,   "<%= app_name %>"
 set :user,          "deployer"
-set :deploy_to,     "/home/#{user}/rails-applications/#{<%= name %>}"
+set :deploy_to,     "/home/#{user}/rails-applications/#{<%= app_name %>}"
 set :rails_env,     "production"
 set :use_sudo,      false
 set :keep_releases, 3
@@ -12,7 +12,7 @@ set :keep_releases, 3
 # Git Settings
 set :scm,           :git
 set :branch,        "master"
-set :repository,    "git@github.com:mpelos/<%= name %>.git"
+set :repository,    "git@github.com:mpelos/<%= app_name %>.git"
 set :deploy_via,    :remote_cache
 
 # Uses local instead of remote server keys, good for github ssh key deploy.
