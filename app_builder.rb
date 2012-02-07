@@ -29,7 +29,7 @@ class Odin
 
       protected
         def path
-          "/home/marcelo/desenvolvimento/pelos_template/"
+          "/Users/marcelo/desenvolvimento/pelos_template/templates/"
         end
 
         def execute!
@@ -87,7 +87,8 @@ class AppBuilder
     copy_file "app/stylesheets/application.sass"
     copy_file "app/stylesheets/_base.sass"
     copy_file "app/stylesheets/_variables.sass"
-    copy_file "app/views/layouts/application.html.haml"
+    empty_directory "app/views/application_mailer"
+    template "app/views/layouts/application.html.haml"
   end
 
   def config
@@ -96,8 +97,17 @@ class AppBuilder
     template "config/environment.rb"
     template "config/routes.rb"
     copy_file "config/compass.rb"
-    directory "config/environments"
-    directory "config/initializers"
+    copy_file "config/credentials.yml"
+    template "config/environments/development.rb"
+    template "config/environments/production.rb"
+    template "config/environments/test.rb"
+    copy_file "config/initializers/backtrace_silencers.rb"
+    copy_file "config/initializers/inflections.rb"
+    copy_file "config/initializers/mime_types.rb"
+    template "config/initializers/secret_token.rb"
+    template "config/initializers/session_store.rb"
+    copy_file "config/initializers/will_paginate.rb"
+    copy_file "config/initializers/setup_mailer.rb"
     directory "config/locales"
   end
 
@@ -172,7 +182,7 @@ class AppBuilder
 
   protected
     def path
-      "/home/marcelo/desenvolvimento/pelos_template/"
+      "/Users/marcelo/desenvolvimento/pelos_template/templates/"
       #"https://github.com/mpelos/pelos_template/raw/master/"
     end
 

@@ -1,0 +1,85 @@
+= link_to '<< Voltar', admin_<%= plural_table_name %>_path, :id => "top_link", :class => "link"
+
+#form
+  = <%= @form[:type] %> [:admin, @<%= singular_table_name %>]<%= @form[:multipart] %> do |form|
+    - if @<%= singular_table_name %>.errors.any?
+      #error_explanation
+        %h2= "Est" + (t('activerecord.attributes.<%= file_name %>.gender') == 'o' ? 'e ' : 'a ') + t('activerecord.models.<%= file_name %>').downcase + " não pôde ser salv#{t('activerecord.attributes.<%= file_name %>.gender')}."
+        %p Corrija os os seguintes erros:
+        %ul
+          - @<%= singular_table_name %>.errors.full_messages.each do |msg|
+            %li= msg
+
+    %table
+<% for attribute in attributes -%>
+<% if attribute.type == :has_many -%>
+      %tr
+        %th= label :<%= attribute.name %>, t('activerecord.models.<%= singular_table_name %>_<%= attribute.name.singularize %>').pluralize
+        %td
+          = form.fields_for :<%= attribute.name %> do |<%= attribute.name.singularize %>_form|
+            = <%= attribute.name.singularize %>_form.<%= attribute.field_type %> :content, :class => 'text_field'
+            = <%= attribute.name.singularize %>_form.link_to_remove (image_tag "admin/delete.png")
+
+          = form.link_to_add :<%= attribute.name %>, "Adicionar #{t('activerecord.models.<%= singular_table_name %>_<%= attribute.name.singularize %>')}"
+
+<% elsif attribute.type.to_s.include? 'has_many_' -%>
+      %tr
+        %th= form.label :<%= attribute.name %>, t('activerecord.models.<%= file_name %>_<%= attribute.name.singularize %>').pluralize
+        %td
+          #nested_attributes_container
+            = form.fields_for :<%= attribute.name %> do |<%= attribute.name.singularize %>_form|
+              - if <%= attribute.name.singularize %>_form.object.new_record?
+                = <%= attribute.name.singularize %>_form.file_field :attachment, :class => 'file_field'
+                = <%= attribute.name.singularize %>_form.link_to_remove (image_tag "admin/delete.png")
+<% if options.image_subtitle? -%>
+                = image_form.text_field :attachment_subtitle, :class => 'text_field tooltip', :title => 'Legenda da Imagem'
+<% end -%>
+              - else
+<% if attribute.type == :has_many_files -%>
+                = link_to <%= attribute.name.singularize %>_form.object.attachment_file_name, <%= attribute.name.singularize %>_form.object.url, :class => 'link expand_image'
+                = link_to image_tag('admin/cross.png'), admin_<%= singular_table_name %>_<%= attribute.name.singularize %>_path(@<%= singular_table_name %>, <%= attribute.name.singularize %>_form.object.id), :confirm => 'Você tem certeza que deseja excluir este arquivo?', :method => :delete, :class => 'link', :title => 'Excluir Imagem'
+<% elsif attribute.type == :has_many_images -%>
+                .thumb
+                  = link_to image_tag( <%= attribute.name.singularize %>_form.object.url(:admin_thumb), :width => 94, :height => 71 ), <%= attribute.name.singularize %>_form.object.url, :class => 'expand_image', :rel => 'gallery'
+<% if options.image_subtitle? -%>
+                  = link_to image_tag('admin/document--pencil.png'), '#', :class => 'edit_subtitle', :title => 'Editar legenda'
+<% end -%>
+                  = link_to image_tag('admin/cross.png'), admin_<%= singular_table_name %>_<%= attribute.name.singularize %>_path(@<%= singular_table_name %>, <%= attribute.name.singularize %>_form.object.id), :confirm => 'Você tem certeza que deseja excluir esta imagem?', :method => :delete, :class => 'cross', :title => 'Excluir Imagem'
+<% if options.image_subtitle? -%>
+                = image_form.hidden_field :attachment_subtitle, 'data-image-id' => image_form.object.id
+
+            #edit_image_subtitle
+              = text_field_tag :attachment_subtitle, '', :class => 'text_field', :title => 'Legenda da imagem', 'data-image-reference' => ''
+              %input#subtitle_ok_button(type="button" value="OK")
+<% end -%>
+<% end -%>
+
+          .clear
+          = form.link_to_add :<%= attribute.name %>, "Adicionar #{t('activerecord.models.<%= singular_table_name %>_<%= attribute.name.singularize %>')}"
+
+<% elsif attribute.type.to_s.include? 'has_one_' -%>
+      %tr
+        = form.fields_for :<%= attribute.name %> do |<%= attribute.name %>_form|
+          %th= <%= attribute.name %>_form.label :attachment, t('activerecord.models.<%= singular_table_name %>_<%= attribute.name %>')
+          - if <%= attribute.name %>_form.object.new_record?
+            %td= <%= attribute.name %>_form.file_field :attachment, :class => 'file_field'
+          - else
+            %td
+<% if attribute.type == :has_one_file -%>
+              = link_to image_tag( <%= attribute.name.singularize %>_form.object.url(:admin_thumb), :width => 94, :height => 71 ), <%= attribute.name.singularize %>_form.object.url, :class => 'expand_image', :rel => 'gallery'
+              = link_to image_tag('admin/cross.png'), admin_<%= singular_table_name %>_<%= attribute.name.singularize %>_path(@<%= singular_table_name %>, <%= attribute.name.singularize %>_form.object.id), :confirm => 'Você tem certeza que deseja excluir este arquivo?', :method => :delete, :class => 'cross', :title => 'Excluir Imagem'
+<% elsif attribute.type == :has_one_image -%>
+              .thumb
+                = link_to image_tag( <%= attribute.name %>_form.object.url(:admin_thumb), :width => 94, :height => 71 ), <%= attribute.name %>_form.object.url, :class => 'expand_image'
+                = link_to image_tag('admin/cross.png'), admin_<%= singular_table_name %>_<%= attribute.name.singularize %>_path(@<%= singular_table_name %>, <%= attribute.name.singularize %>_form.object), :confirm => 'Você tem certeza que deseja excluir esta imagem?', :method => :delete, :class => 'cross', :title => 'Excluir Imagem'
+<% end -%>
+<% else -%>
+      %tr
+        %th= form.label :<%= attribute.name %>, t('activerecord.attributes.<%= singular_table_name %>.<%= attribute.name %>')
+        %td= form.<%= attribute.field_type %> :<%= attribute.name %>, :class => '<%= attribute.field_type %>'
+
+<% end -%>
+<% end -%>
+      %tr
+        %td(colspan=2)= form.submit controller.action_name == 'new' ? 'Inserir' : 'Atualizar', :class => 'button'
+

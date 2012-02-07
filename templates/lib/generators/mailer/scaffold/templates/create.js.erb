@@ -1,0 +1,7 @@
+<% if @error_message %>
+  alert("<%= @error_message %>");
+<% else %>
+  alert("<%= @successful_message %>")
+  $('form')[0].reset();
+<% end %>
+

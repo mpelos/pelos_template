@@ -1,0 +1,17 @@
+!!! Transitional
+%html(xmlns='http://www.w3.org/1999/xhtml' lang='pt-BR' xml:lang='pt-BR')
+  %head
+    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    %meta(http-equiv="content-language" content="pt-br")
+    = csrf_meta_tag
+
+    = stylesheet_link_tag 'application'
+
+    = javascript_include_tag 'jquery.min', 'rails'
+    = javascript_include_tag 'application'
+
+    = yield :head
+
+  %body
+    = yield
+

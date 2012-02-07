@@ -1,0 +1,8 @@
+= form_for <%= plural_table_name %>_path, :html => { :class => 'mail_form' } do
+<% for attribute in attributes -%>
+  = form.label :<%= attribute.name %>, t('<%= singular_table_name %>.<%= attribute.name %>')
+  = form.<%= attribute.field_type %> :<%= attribute.name %>, :class => '<%= attribute.field_type %>'
+
+<% end -%>
+  %input.button.clear_button{:type => 'button', :value => t('contact.clear')}
+  = submit_tag t('contact.send'), :class => 'button submit_button'

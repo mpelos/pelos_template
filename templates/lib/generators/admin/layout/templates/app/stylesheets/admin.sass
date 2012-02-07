@@ -1,0 +1,258 @@
+@import "compass/reset"
+@import "compass/css3/text-shadow"
+@import "compass/css3/box-shadow"
+@import "compass/css3/border-radius"
+@import "compass/utilities/general/clearfix"
+
+html, body
+  background-image: image-url("admin/background-tile.png")
+  font-family: arial, helvetica, sans-serif
+
+strong
+  font-weight: bold
+
+.clear
+  clear: both
+
+#header
+  @include text-shadow(black)
+  width: 100%
+  height: 35px
+  padding-top: 15px
+  background-image: image-url("admin/header-transparent-background.png")
+  text-align: center
+  color: white
+  font-weight: bold
+  font-size: 18px
+
+#wrapper
+  @include clearfix
+  max-width: 1200px
+  min-width: 800px
+  margin: 0 auto
+  padding: 20px 0
+  #inner_wrapper
+    width: 100%
+
+ul#menu
+  float: left
+  width: 20%
+  margin-top: 16px
+  font-size: 13px
+  li
+    margin: 4px 0
+  a
+    @include border-left-radius(6px)
+    @include text-shadow(black)
+    display: block
+    padding: 10px 0 10px 20px
+    color: white
+    text-decoration: none
+    &:hover
+      background-image: image-url("admin/menu-hover-transparent-background.png")
+  a.selected
+    @include text-shadow(black)
+    background-image: image-url("admin/menu-selected-transparent-background.png")
+    color: white
+    font-weight: bold
+
+#body
+  @include box-shadow(#2f435c, 0, 0, 4px)
+  @include border-radius(6px)
+  float: left
+  width: 75%
+  min-height: 550px !important
+  border: solid 1px #47648a
+  background-color: white
+
+#page_content
+  padding: 20px 20px 40px 20px
+
+ul#submenu
+  @include clearfix
+  border: solid #ccc
+  border-width: 1px 0
+  background-color: #eee
+  font-size: 15px
+  li
+    float: left
+    margin: 10px 0 10px 4%
+  a
+    color: #666
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+    &.selected
+      font-weight: bold
+
+p.notice
+  border-bottom: solid 1px #89C79D
+  padding: 10px 0
+  background-color: #D7F7E1
+  color: #14632D
+  text-align: center
+  font-size: 15px
+
+h1
+  padding: 20px
+  color: #224c87
+  @include text-shadow
+  font-weight: bold
+  font-size: 20px
+
+.link
+  color: #224C87
+  font-size: 16px
+  &:hover
+    text-decoration: none
+
+/* LIST */
+
+#list
+  .button
+    margin-bottom: 20px
+  ul.items
+    clear: left
+    border-top: solid 1px #c8c8c8
+  .ui-state-highlight
+    height: 86px
+    border: dashed 1px #c8c8c8
+    background-color: #f8f8f8
+  li.item
+    @include clearfix
+    border: solid 1px
+    border-color: #c8c8c8
+    border-top-color: white
+    padding: 10px
+    background-color: #f2f2f2
+    color: #595959
+    text-shadow: 0 1px 0 white
+    h2
+      font-size: 15px
+      margin-bottom: 10px
+    p
+      font-size: 13px
+      margin-bottom: 10px
+    li
+      float: left
+      margin-right: 10px
+      a.link
+        text-decoration: none
+        font-size: 15px
+        &:hover
+          text-decoration: underline
+
+  .pagination
+    margin-top: 20px
+    color: #595959
+    font-size: 13px
+    a
+      color: #224C87
+      font-weight: bold
+      &:hover
+        text-decoration: none
+
+/* FORM */
+
+#error_explanation
+  margin: 20px 0
+  color: #d30b0b
+  h2
+    margin-bottom: 10px
+    font-size: 16px
+    font-weight: bold
+  p, li
+    margin-bottom: 5px
+    font-size: 15px
+  ul
+    list-style: inside disc
+
+table
+  margin-top: 10px
+th
+  vertical-align: top
+  width: 100px
+  padding-top: 7px
+td
+  padding-bottom: 15px
+.tooltip
+  margin-top: 3px
+  color: #0A1D38
+  font-size: 15px
+#nested_attributes_container
+  width: 500px
+  .link
+    display: block
+  #edit_image_subtitle
+    display: none
+    margin-bottom: 10px
+.fields
+  margin-bottom: 5px
+.thumb
+  position: relative
+  float: left
+  margin: 0 8px 8px 0
+  a img
+    opacity: 0.8
+  a.edit_subtitle
+    display: none
+    position: absolute
+    top: -6px
+    right: 12px
+  a.cross
+    display: none
+    position: absolute
+    top: -6px
+    right: -6px
+.add_nested_fields
+  clear: left
+#form .button
+  margin-top: 10px
+
+label
+  margin-right: 20px
+  color: #222
+  font-size: 15px
+
+.text_field, textarea, .file_field, select
+  color: #333
+  font-size: 16px
+
+.text_field, textarea, .file_field
+  width: 400px
+
+.text_field, textarea, select
+  @include border-radius(3px)
+  border: solid 1px #aaa
+  border-top-color: #999
+  padding: 3px 5px
+  background: image-url("admin/field-background.png") repeat-x #f8f8f8
+
+textarea
+  font-family: arial, helvetica, sans-serif
+  width: 600px
+  height: 200px
+  font-size: 13px
+
+.file_field
+  margin-bottom: 5px
+  background-color: #f8f8f8
+
+.button
+  @include clearfix
+  @include box-shadow(#999, 0, 0, 2px, 0)
+  float: left
+  border: solid 1px
+  border-color: #ccc #b4b4b4 #999 #b4b4b4
+  padding: 5px 20px 4px 20px
+  background: image-url("admin/button-background.png") repeat-x 0 0
+  color: black
+  text-decoration: none
+  font-weight: bold
+  font-size: 13px
+  cursor: pointer
+  &:hover
+    background-position: 0 -32px
+  &:active
+    background-position: 0 -64px
+

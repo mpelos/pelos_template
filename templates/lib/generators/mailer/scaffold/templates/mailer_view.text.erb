@@ -1,0 +1,10 @@
+<% for attribute in attributes -%>
+<% unless attribute.type == :text -%>
+<%= attribute.name.titleize %>: <%%= @<%= singular_table_name %>['<%= attribute.name %>'] %>
+<% else -%>
+
+<%= attribute.name %>:
+<%%= @<%= singular_table_name %>['<%= attribute.name %>'] %>
+<% end -%>
+<% end -%>
+

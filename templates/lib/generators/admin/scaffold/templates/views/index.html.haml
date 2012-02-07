@@ -1,0 +1,34 @@
+#list
+  = link_to "Inserir Nov#{t('activerecord.attributes.<%= file_name %>.gender')} #{t('activerecord.models.<%= file_name %>')}", new_admin_<%= singular_table_name %>_path, :class => 'button'
+  - unless @<%= plural_table_name %>.empty?
+    %ul.items.sortable
+      - @<%= plural_table_name %>.each do |<%= singular_table_name %>|
+        %li.item<%= "{'data-reorder-path' => reorder_admin_" + singular_table_name + "_path(" + singular_table_name + ")}" if options.ordination? %>
+          %h2= <%= singular_table_name %>.<%= attributes.first.name %>
+          %p
+            %strong Ultima atualização:
+            = l(<%= singular_table_name %>.updated_at.to_date, :format => :long)
+          %ul
+<% if options.show? -%>
+            %li
+              = link_to admin_<%= singular_table_name %>_path(<%= singular_table_name %>), :class => 'link show' do
+                = image_tag('admin/eye.png')
+                Visualizar
+<% end -%>
+            %li
+              = link_to edit_admin_<%= singular_table_name %>_path(<%= singular_table_name %>), :class => 'link' do
+                = image_tag('admin/document--pencil.png')
+                Editar
+            %li
+              = link_to [:admin, <%= singular_table_name %>], :confirm => "Você tem certeza que deseja excluir est#{t('activerecord.attributes.<%= file_name %>.gender') == 'o' ? 'e' : 'a'} #{t('activerecord.models.<%= file_name %>')}?", :method => :delete, :class => 'link', :title => 'Excluir' do
+                = image_tag('admin/cross.png')
+                Excluir
+<% if options.ordination? -%>
+            %li
+              = link_to '#', :class => 'link move', :title => "Clique, segure e arraste para alterar a ordem dos items" do
+                = image_tag('admin/arrow-move.png')
+                Mover
+<% end -%>
+
+      %li= will_paginate @<%= singular_table_name %>
+
